@@ -8,11 +8,45 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const handleSignUp = () => {
+    // Make sure email and password are not empty
+    if (!email || !password || !confirmPassword) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Handle password mismatch
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    // Send sign-up data to backend
+    fetch('http://<your-server-ip>:5000/api/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, confirmPassword }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Sign up successful!");
+          navigation.navigate("Login");
+        } else {
+          alert("Sign up failed. Please try again.");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("An error occurred. Please try again.");
+      });
+  };
+
   return (
     <View style={styles.container}>
       {/* Illustration */}
-      
-             {/* <Image source={require('../assets/images/login-bg.jpg')} style={styles.illustration} /> */}
+      {/* <Image source={require('../assets/images/login-bg.jpg')} style={styles.illustration} /> */}
+
       {/* Input Fields */}
       <TextInput
         style={styles.input}
@@ -37,7 +71,7 @@ const SignUpScreen = () => {
       />
 
       {/* Sign Up Button */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
 
