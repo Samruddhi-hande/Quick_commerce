@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
-
+// Hello this is Harsh (Testing)
 const categories = [
   { name: 'MyList', icon: 'list' },
   { name: 'Offers', icon: 'local-offer' },
